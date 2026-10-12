@@ -57,7 +57,7 @@ export function Station({ section, index }: Props) {
     group.current.scale.setScalar(s);
     shape.current.rotation.y += delta * (isActive ? 0.8 : 0.25);
     if (light.current) {
-      light.current.intensity = MathUtils.damp(light.current.intensity, isActive ? 6 : 0, 6, delta);
+      light.current.intensity = MathUtils.damp(light.current.intensity, isActive ? 10 : 0, 6, delta);
     }
     if (glow.current) {
       glow.current.opacity = MathUtils.damp(glow.current.opacity, isActive ? 0.55 : 0, 6, delta);
@@ -94,8 +94,8 @@ export function Station({ section, index }: Props) {
         </mesh>
       </Float>
 
-      {/* lamp schuin boven/voor het station: belichte en beschaduwde facetten */}
-      <pointLight ref={light} position={[2.5, 3, 3]} intensity={0} distance={10} decay={1.5} color="#ffffff" />
+      {/* lamp schuin boven/voor het station (van het pad af), kort bereik zodat hij de weg niet raakt */}
+      <pointLight ref={light} position={[Math.sign(side) * 1.5, 1.8, 1.8]} intensity={0} distance={5} decay={1} color="#ffffff" />
 
       {/* sokkel */}
       <mesh position={[0, -1.9, 0]}>
