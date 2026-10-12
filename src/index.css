@@ -1,0 +1,80 @@
+:root {
+  --bg: #0b0f1a;
+  --panel: rgba(14, 19, 32, 0.82);
+  --text: #e8edf7;
+  --muted: #93a0b8;
+  --line: rgba(255, 255, 255, 0.08);
+  font-family: "Inter", system-ui, sans-serif;
+  color: var(--text);
+}
+
+* { box-sizing: border-box; }
+html, body, #root { margin: 0; height: 100%; background: var(--bg); overflow: hidden; }
+
+/* Overlay laat scroll/klik door naar de canvas, behalve op eigen elementen */
+.overlay { position: fixed; inset: 0; pointer-events: none; }
+.overlay > * { pointer-events: auto; }
+
+.progress {
+  position: fixed; top: 0; left: 0; height: 3px;
+  background: linear-gradient(90deg, #f5c451, #5fb3ff, #ff7a6b, #9be38a);
+  transition: width 0.1s linear;
+}
+
+.dots {
+  position: fixed; left: 20px; top: 50%; transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 10px;
+}
+.dots button {
+  width: 12px; height: 12px; border-radius: 50%; padding: 0; cursor: pointer;
+  border: 2px solid var(--c); background: transparent; transition: transform 0.2s, background 0.2s;
+}
+.dots button.is-active { background: var(--c); transform: scale(1.35); }
+
+.panel {
+  position: fixed; right: 24px; top: 50%; transform: translateY(-50%);
+  width: min(420px, calc(100vw - 32px)); max-height: 80vh; overflow-y: auto;
+  padding: 24px 26px; border-radius: 16px; border-top: 4px solid;
+  background: var(--panel); backdrop-filter: blur(12px);
+  border-left: 1px solid var(--line); border-right: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  animation: in 0.35s ease;
+  line-height: 1.55; font-size: 15px;
+}
+@keyframes in { from { opacity: 0; transform: translateY(calc(-50% + 12px)); } }
+
+.panel h1 { font-family: "Space Grotesk", sans-serif; font-size: 28px; margin: 4px 0 6px; }
+.panel h2 { font-family: "Space Grotesk", sans-serif; font-size: 15px; margin: 18px 0 6px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+.panel .part { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; margin: 0; font-weight: 500; }
+.panel .question { color: var(--muted); font-style: italic; margin-top: 0; }
+.panel ul { padding-left: 18px; margin: 0; }
+.panel a { color: #8ec5ff; }
+
+.meta { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag { font-size: 12px; padding: 3px 9px; border-radius: 999px; background: rgba(255,255,255,0.07); }
+.sources { font-size: 13px; color: var(--muted); margin-bottom: 0; }
+
+.checklist { list-style: none; padding: 0 !important; }
+.checklist li { color: var(--muted); }
+.checklist li.done { color: #9be38a; }
+.warn { color: #ffb36b; font-size: 14px; }
+
+.nav-buttons { display: flex; justify-content: space-between; margin-top: 20px; }
+.nav-buttons button {
+  font: inherit; font-size: 14px; color: var(--text); cursor: pointer;
+  background: rgba(255,255,255,0.06); border: 1px solid var(--line); border-radius: 8px; padding: 6px 12px;
+}
+.nav-buttons button:disabled { opacity: 0.3; cursor: default; }
+
+.hint {
+  position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+  color: var(--muted); font-size: 14px; animation: bob 1.6s ease-in-out infinite;
+}
+@keyframes bob { 50% { transform: translate(-50%, 6px); } }
+
+/* Mobiel: paneel onderin */
+@media (max-width: 760px) {
+  .panel { top: auto; bottom: 12px; right: 16px; transform: none; max-height: 48vh; animation: none; }
+  .dots { left: 8px; }
+  .hint { bottom: auto; top: 16px; }
+}
